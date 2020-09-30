@@ -1,12 +1,24 @@
 "use strict";
+
+
 const userForm = new UserForm(); //Создаем объект
 
-userForm.loginFormCallback = data => { //Присваиваем свойству loginFormCallback функцию которая:
-  ApiConnector.login(data, () => console.log("Выполняется запрос авторизации")); // Запрос на сервер для попытки авторизации пользователя,
-  // Передали в запрос авторизации функцию которая будет выполняться при попытке авторизации "() => console.log"
-  if(!err){ //Проверяем успешность запроса
-location.reload() //При успешном запросе обновляем страницу
-  }else {
-    throw"Запрос провален" // при провале запроса выводим ошибку
-  }
+userForm.loginFormCallback = (data) => {
+  ApiConnector.login(data, (response) => {
+    if (response.success) {
+      location.reload();
+    } else {
+      userForm.setLoginErrorMessage(response.error);
+    }
+  });
+};
+
+userForm.registerFormCallback = (data) => {
+  ApiConnector.register(data, (response) => {
+    if (success.success) {
+      location.reload();
+    } else {
+      userForm.setRegisterErrorMessage(response.error);
+    }
+  });
 };
